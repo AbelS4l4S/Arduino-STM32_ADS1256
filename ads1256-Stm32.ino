@@ -40,6 +40,47 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  if(Serial.available()>0){
+    
+    char commandCharacter = Serial.read();
+    switch(commandCharacter){
+
+      // case for reading the registers value
+      case 'r':
+        while(!Serial.available()){
+          registerAddres = Serial.parseInt();
+        }
+      break;
+
+      // case for writing a register value
+      case 'w':
+        while(!Serial.available()){
+          registerAddres = Serial.parseInt();
+          delay(100);
+          writeRegister(registerAddres, registerValueW);
+          delay(500); 
+        }
+      break;
+      
+      // Print a message to the serial terminal
+      case 't':
+        Serial.println("* Test message triggered by serial command")
+      break;
+
+      // Read a single value from the ADC
+      case 'O':
+        readSingle();
+      break;
+
+      case 'R':
+      reset_ADS1256();
+      break;
+
+      // SDATAC - Stop Reading Data Continously
+      case 's':
+        SPI.transfer(B00001111);
+      break;
+    }
+  }
 
 }
