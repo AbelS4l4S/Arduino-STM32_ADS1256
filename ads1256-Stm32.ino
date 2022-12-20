@@ -47,14 +47,14 @@ void loop() {
 
       // case for reading the registers value
       case 'r':
-        while(!Serial.available()){
+        while(!Serial.available()) {
           registerAddres = Serial.parseInt();
         }
       break;
 
       // case for writing a register value
       case 'w':
-        while(!Serial.available()){
+        while(!Serial.available()) {
           registerAddres = Serial.parseInt();
           delay(100);
           writeRegister(registerAddres, registerValueW);
@@ -109,4 +109,33 @@ void loop() {
       break;
     }
   }
+}
+
+
+// Function for the ISR
+void checkDReady() {
+  dataReady = true;
+}
+
+
+// Function for reading selected register
+unsigned long readRegister(uint8_t registerAddress) {
+  
+  SPI.beginTransaction(SPISettings(1920000, MSBFIRST, SPI_MODE1));
+  //SPI_MODE1 = output edge: rising, data capture: falling; clock polarity: 0, clock phase: 1.
+  
+  //CS must stay LOW during the entire sequence [Ref: P34, T24]
+  digitalWrite(CS_pin, LOW);
+  //0x10 = 0001000 = RREG - OR together the two numbers (command + address)
+  SPI.transfer(0x10 | registerAddress);
+  //2nd (empty) command byte
+  SPI.transfer(0x00);
+  //see t6 in the datasheet
+  delayMicroseconds(5);
+  //read out the register value
+  registerValueR = SPI.transfer(0xFF);
+  digitalWrite(CS_pin, HIGH);
+  SPI.endTransaction();
+
+  return registerValueR;
 }
