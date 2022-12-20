@@ -80,7 +80,33 @@ void loop() {
       case 's':
         SPI.transfer(B00001111);
       break;
+
+      //Single channel continous reading - MUX is manual, can be single and differential too
+      case 'A': 
+        readSingleContinuous();
+      break;
+
+      //Single-ended mode cycling
+      case 'C':
+        cycleSingleEnded();
+      break;
+
+      //differential mode cycling
+      case 'D':
+        cycleDifferential();
+      break;
+
+      //direct command
+      case 'd':
+        while (!Serial.available());
+        directCommand = Serial.parseInt();
+        sendDirectCommand(directCommand);
+      break;
+
+      //Set everything back to default
+      case 'U':
+        userDefaultRegisters();
+      break;
     }
   }
-
 }
