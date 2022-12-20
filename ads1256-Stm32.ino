@@ -139,3 +139,21 @@ unsigned long readRegister(uint8_t registerAddress) {
 
   return registerValueR;
 }
+
+
+// Function to write a register
+void writeRegister(uint8_t registerAddress, uint8_t registerValueW){
+  //SPI_MODE1 = output edge: rising, data capture: falling; clock polarity: 0, clock phase: 1.
+  SPI.beginTransaction(SPISettings(1920000, MSBFIRST, SPI_MODE1));
+
+  //CS must stay LOW during the entire sequence [Ref: P34, T24]
+  digitalWrite(CS_pin, LOW);
+  //see t6 in the datasheet
+  delayMicroseconds(5); 
+  // 0x50 = 01010000 = WREG
+  SPI.transfer(0x50 | registerAddress); 
+  SPI.transfer(0x00);
+  SPI.transfer(registerValueW);
+  digitalWrite(CS_pin, HIGH);
+  SPI.endTransaction();
+}
