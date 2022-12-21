@@ -142,7 +142,7 @@ unsigned long readRegister(uint8_t registerAddress) {
 
 
 // Function to write a register
-void writeRegister(uint8_t registerAddress, uint8_t registerValueW){
+void writeRegister(uint8_t registerAddress, uint8_t registerValueW) {
   //SPI_MODE1 = output edge: rising, data capture: falling; clock polarity: 0, clock phase: 1.
   SPI.beginTransaction(SPISettings(1920000, MSBFIRST, SPI_MODE1));
 
@@ -156,4 +156,24 @@ void writeRegister(uint8_t registerAddress, uint8_t registerValueW){
   SPI.transfer(registerValueW);
   digitalWrite(CS_pin, HIGH);
   SPI.endTransaction();
+}
+
+
+void reset_ADS1256() {
+  
+  // initialize SPI with  clock, MSB first, SPI Mode1
+  SPI.beginTransaction(SPISettings(1920000, MSBFIRST, SPI_MODE1)); 
+
+  digitalWrite(CS_pin, LOW);
+  delayMicroseconds(7);
+  //Reset command
+  SPI.transfer(0xFE); 
+  //Minimum 0.6ms required for Reset to finish.
+  delay(2); 
+  //Issue SDATAC (any 8-bit value would complete the RESET command)
+  SPI.transfer(0x0F);
+  delayMicroseconds(100);
+  digitalWrite(CS_pin, HIGH);
+  SPI.endTransaction();
+  
 }
