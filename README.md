@@ -1,10 +1,5 @@
 # ADC 1256 y STM32
 
-The original code was taken form:
-
-- <https://www.youtube.com/watch?v=rsi9o5PQzwM&list=PLaeIi4Gbl1T-RpVNM8uKdiV1G_3t5jCIu&index=5>
-- <https://curiousscientist.tech/blog/ads1256-improved-arduino-code>
-
 ## Schematics
 
 # Pin configuration - STM32F103C8T6
@@ -37,3 +32,8 @@ ADC1/RTS2/T2C2|PA1 / +3.3V||PDWN/SYNC|P14
 ## Resources
 
 [Very low noise, 24-Bit analog-to-digital converter DataSheet](https://www.ti.com/lit/ds/symlink/ads1256.pdf?ts=1671416123919&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FADS1256)
+
+- ADS 1256 24b bits and Arduino/STM32 [Curious Scientist blog](<https://curiousscientist.tech/blog/ads1256-improved-arduino-code>) | [Youtube video](<https://www.youtube.com/watch?v=rsi9o5PQzwM&list=PLaeIi4Gbl1T-RpVNM8uKdiV1G_3t5jCIu&index=5>)
+- ADS1256-and-Arduino by mbilsky [Github Repo](https://github.com/mbilsky/ADS1256-and-Arduino)
+- ADS1256 Arduino library by adienakhmad [GitHub Repo](https://github.com/adienakhmad/ADS1256)
+- ADS1256.c by dariosalvi78 [Github Repo](https://gist.github.com/dariosalvi78/f2e990b4317199d235bbf5963c3486ae)
